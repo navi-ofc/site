@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N.A.V.I. - Nunca Aposte, Você Investe</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            margin: 0;
+            padding-top: 60px;
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* --- Estilos da Barra de Navegação (NAVBAR) --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #0A0A1A;
+            color: #ffffff;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            height: 60px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            padding: 0 20px;
+        }
+        .navbar-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+            margin-right: auto;
+        }
+        .navbar-links li a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0 15px;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+        .navbar-links li a:hover {
+            color: #70038D;
+        }
+        .navbar-logo-right img {
+            height: 40px; /* Ajuste o tamanho da imagem conforme necessário */
+            margin-left: auto;
+            padding-right: 20px;
+        }
+
+        /* --- Estilos das Bolhas e Título na Direita --- */
+        .right-container {
+            position: fixed;
+            top: 60px;
+            right: 0;
+            width: 50%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding-top: 50px;
+        }
+        .right-container img {
+            height: 150px; /* Ajuste o tamanho da imagem do título principal */
+            position: relative;
+            z-index: 2;
+        }
+        .bubbles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .bubble {
+            position: absolute;
+            background-color: rgba(155, 16, 194, 0.4);
+            border-radius: 50%;
+            animation: bubble-float linear infinite;
+        }
+        @keyframes bubble-float {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-1000px) scale(1.5); opacity: 0; }
+        }
+
+        /* --- Estilos do Conteúdo Principal na Esquerda --- */
+        .left-container {
+            width: 50%;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin-left: 20px;
+            background: rgba(0, 0, 0, 0.75);
+            padding: 30px 50px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(155, 16, 194, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 1;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        h1, h2, h3 {
+            color: #70038D;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        p {
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        strong {
+            color: #9B10C2;
+        }
+        .calculator {
+            background: rgba(155, 16, 194, 0.15);
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border: 1px solid #9B10C2;
+            width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .calculator label {
+            color: #ffffff;
+            display: block;
+            width: 100%;
+            margin-bottom: 8px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .calculator input, .calculator select {
+            display: block;
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #9B10C2;
+            border-radius: 5px;
+            background-color: #222;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+        .calculator button {
+            background-color: #70038D;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        .calculator button:hover {
+            background-color: #9B10C2;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(112, 3, 141, 0.4);
+            border: 1px solid #70038D;
+            border-radius: 5px;
+            color: #ffffff;
+            display: none;
+            font-size: 1.05rem;
+        }
+        hr {
+            border-color: #9B10C2;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <ul class="navbar-links">
+        <li><a href="#about">Sobre</a></li>
+        <li><a href="#calculators">Calculadoras</a></li>
+        <li><a href="#minigames">Mini-games</a></li>
+        <li><a href="#credits">Créditos</a></li>
+    </ul>
+    <div class="navbar-logo-right">
+        <img src="https://raw.githubusercontent.com/navi-ofc/site/main/titulo.png" alt="Logotipo N.A.V.I.">
+    </div>
+</nav>
+
+<div class="left-container">
+    <div class="container">
+        <section id="about">
+            <h1 style="text-align: left;">N.A.V.I. - Nunca Aposte, Você Investe</h1>
+            <h3 style="text-align: left;">Construindo Seu Futuro Financeiro Com Sabedoria</h3>
+            <p>A jornada rumo à <strong>liberdade financeira</strong> é pavimentada com decisões inteligentes e um entendimento claro sobre a diferença entre risco e oportunidade. A filosofia N.A.V.I. - <strong>Nunca Aposte, Você Investe</strong> - é um farol que ilumina o caminho, afastando as ilusões do ganho fácil e guiando para a solidez da construção de patrimônio.</p>
+            <p>Muitas pessoas, na busca por uma melhora rápida em sua situação econômica, caem na armadilha das apostas. Seja em jogos de loteria, cassinos ou plataformas online, a promessa de um retorno exponencial e sem esforço é sedutora. No entanto, é crucial entender que <strong>apostas não são um caminho viável para a riqueza sustentável</strong>. Elas são desenhadas para beneficiar a "casa", e as chances estão sempre contra você. Cada aposta é um risco calculado de perda total do capital, mascarado pela emoção da possibilidade de um grande prêmio. A curto prazo, a sorte pode sorrir, mas a longo prazo, a matemática implacável do jogo de azar leva à drenagem dos recursos.</p>
+            <h3>O Poder Transformador do Investimento Consciente</h3>
+            <p>Em contraste, o <strong>investimento</strong> é uma ferramenta poderosa e comprovada para a construção de riqueza. Ao invés de depender da sorte, o investidor se baseia em <strong>estratégia, pesquisa e paciência</strong>. Investir significa alocar seus recursos em ativos que têm o potencial de crescer e gerar renda ao longo do tempo. Isso pode incluir ações de empresas sólidas, títulos públicos, fundos imobiliários, ou até mesmo seu próprio negócio. Quando você investe, você se torna parte de um ecossistema produtivo, contribuindo para o crescimento e colhendo os frutos desse desenvolvimento.</p>
+            <p>A diferença fundamental reside na <strong>expectativa e no controle</strong>. Em uma aposta, você tem pouco ou nenhum controle sobre o resultado. Em um investimento, embora existam riscos inerentes ao mercado, você pode mitigá-los através de diversificação, estudo e acompanhamento. O tempo se torna seu maior aliado, trabalhando a seu favor através do poder dos <strong>juros compostos</strong>, transformando pequenas quantias em valores significativos ao longo dos anos.</p>
+            <h3>N.A.V.I. na Prática: Fuja das Dívidas e Abrace o Crescimento</h3>
+            <p>A primeira etapa para qualquer pessoa que deseja investir é livrar-se das <strong>dívidas de alto custo</strong>. Juros de cartão de crédito e empréstimos pessoais podem corroer rapidamente seu capital, tornando impossível poupar e investir. A calculadora de dívidas abaixo pode ajudá-lo a visualizar o impacto dos juros e a importância de quitar esses compromissos o mais rápido possível.</p>
+            <p>Uma vez livre das amarras das dívidas, o próximo passo é começar a construir seu futuro. A calculadora de investimentos demonstra o potencial de crescimento do seu dinheiro quando aplicado de forma consistente e inteligente. Mesmo pequenos aportes mensais, combinados com um retorno razoável e o poder do tempo, podem levar a um patrimônio substancial.</p>
+            <p>Lembre-se: o verdadeiro "segredo" para a riqueza não está em atalhos arriscados, mas na disciplina, no conhecimento e na capacidade de tomar decisões financeiras informadas. Adote a filosofia N.A.V.I. e comece hoje mesmo a trilhar o caminho do investimento inteligente e seguro.</p>
+        </section>
+        <hr>
+        <section id="calculators">
+            <h2>Calculadora de Dívidas</h2>
+            <div class="calculator">
+                <label for="debtAmount">Valor da Dívida (R$):</label>
+                <input type="number" id="debtAmount" placeholder="Ex: 5000" min="0">
+                <label for="debtInterest">Taxa de Juros Anual (%):</label>
+                <input type="number" id="debtInterest" placeholder="Ex: 12" min="0">
+                <label for="debtPayment">Pagamento Mensal (R$):</label>
+                <input type="number" id="debtPayment" placeholder="Ex: 250" min="0">
+                <button onclick="calculateDebt()">Calcular</button>
+                <div id="debtResult" class="result"></div>
+            </div>
+            <hr>
+            <h2>Calculadora de Investimentos</h2>
+            <div class="calculator">
+                <label for="initialAmount">Capital Inicial (R$):</label>
+                <input type="number" id="initialAmount" placeholder="Ex: 1000" min="0">
+                <label for="monthlyDeposit">Aporte Mensal (R$):</label>
+                <input type="number" id="monthlyDeposit" placeholder="Ex: 100" min="0">
+                <label for="yearlyInterest">Retorno Anual Esperado (%):</label>
+                <input type="number" id="yearlyInterest" placeholder="Ex: 8" min="0">
+                <label for="investmentYears">Período (Anos):</label>
+                <input type="number" id="investmentYears" placeholder="Ex: 10" min="0">
+                <button onclick="calculateInvestment()">Calcular</button>
+                <div id="investmentResult" class="result"></div>
+            </div>
+        </section>
+        <hr>
+        <section id="minigames">
+            <h2>Mini-games</h2>
+            <p>Conteúdo em desenvolvimento.</p>
+        </section>
+        <hr>
+        <section id="credits">
+            <h2>Créditos</h2>
+            <p>Nickolas Gabriel - Dono do projeto</p>
+			<p>GitHub - Onde está sendo hospedado<p/>
+        </section>
+    </div>
+</div>
+
+<div class="right-container">
+    <img src="https://raw.githubusercontent.com/navi-ofc/site/main/titulo.png" alt="Logotipo N.A.V.I.">
+    <div class="bubbles"></div>
+</div>
+
+<script>
+    // Código das calculadoras (mantido)
+    function calculateDebt() {
+        const amount = parseFloat(document.getElementById('debtAmount').value);
+        const interest = parseFloat(document.getElementById('debtInterest').value) / 100 / 12;
+        const payment = parseFloat(document.getElementById('debtPayment').value);
+        const resultDiv = document.getElementById('debtResult');
+        if (isNaN(amount) || isNaN(interest) || isNaN(payment) || amount <= 0 || payment <= 0) {
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Por favor, preencha todos os campos com valores válidos e positivos.';
+            return;
+        }
+        if (payment <= (amount * interest)) {
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Seu pagamento mensal é muito baixo e não cobre sequer os juros. A dívida nunca será quitada a este ritmo.';
+            return;
+        }
+        let totalInterestPaid = 0;
+        let months = 0;
+        let balance = amount;
+        while (balance > 0 && months < 600) {
+            months++;
+            const monthlyInterest = balance * interest;
+            totalInterestPaid += monthlyInterest;
+            balance = balance + monthlyInterest - payment;
+            if (balance < 0) balance = 0;
+        }
+        resultDiv.style.display = 'block';
+        if (months >= 600) {
+            resultDiv.innerHTML = `Com este pagamento, levaria <strong>mais de 50 anos</strong> para quitar a dívida. Juros totais estimados: <strong>R$ ${totalInterestPaid.toFixed(2)}</strong>. Considere aumentar seu pagamento mensal!`;
+        } else {
+            resultDiv.innerHTML = `Tempo para quitar a dívida: <strong>${months} meses</strong>.<br>Juros totais pagos: <strong>R$ ${totalInterestPaid.toFixed(2)}</strong>.`;
+        }
+    }
+    function calculateInvestment() {
+        const initial = parseFloat(document.getElementById('initialAmount').value);
+        const monthly = parseFloat(document.getElementById('monthlyDeposit').value);
+        const yearlyInterest = parseFloat(document.getElementById('yearlyInterest').value) / 100;
+        const years = parseFloat(document.getElementById('investmentYears').value);
+        const resultDiv = document.getElementById('investmentResult');
+        if (isNaN(initial) || isNaN(monthly) || isNaN(yearlyInterest) || isNaN(years) || initial < 0 || monthly < 0 || yearlyInterest < 0 || years < 0) {
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Por favor, preencha todos os campos com valores válidos e positivos (ou zero para aportes/início).';
+            return;
+        }
+        const monthlyInterest = yearlyInterest / 12;
+        const totalMonths = years * 12;
+        let totalAmount = initial;
+        for (let i = 0; i < totalMonths; i++) {
+            totalAmount = (totalAmount + monthly) * (1 + monthlyInterest);
+        }
+        const totalDeposited = initial + (monthly * totalMonths);
+        const totalEarnings = totalAmount - totalDeposited;
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `Valor final estimado: <strong>R$ ${totalAmount.toFixed(2)}</strong>.<br>Total aportado: <strong>R$ ${totalDeposited.toFixed(2)}</strong>.<br>Rendimento total: <strong>R$ ${totalEarnings.toFixed(2)}</strong>.`;
+    }
+    // Código das bolhas animadas (mantido)
+    document.addEventListener('DOMContentLoaded', () => {
+        const bubblesContainer = document.querySelector('.bubbles');
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            bubblesContainer.appendChild(bubble);
+            bubble.style.left = Math.random() * 100 + 'vw';
+            const size = Math.random() * 60 + 20;
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.animationDuration = Math.random() * 10 + 5 + 's';
+            bubble.style.animationDelay = Math.random() * 5 + 's';
+            bubble.addEventListener('animationend', () => {
+                bubble.remove();
+            });
+        }
+        for (let i = 0; i < 20; i++) {
+            createBubble();
+        }
+        setInterval(createBubble, 1000);
+    });
+</script>
+
+</body>
+</html>
